@@ -35,7 +35,7 @@ local Find_Required = API_Check()
 
 if Find_Required == "No" then
     game:GetService("StarterGui"):SetCore("SendNotification",{
-        Title = "Exunys Developer";
+        Title = "gays";
         Text = "Heads script could not be loaded because your exploit is unsupported.";
         Duration = math.huge;
         Button1 = "OK"
@@ -176,7 +176,7 @@ UserInputService.InputBegan:Connect(function(Input)
         
         if _G.SendNotifications == true then
             game:GetService("StarterGui"):SetCore("SendNotification",{
-                Title = "Exunys Developer";
+                Title = "gays";
                 Text = "The Heads's visibility is now set to "..tostring(_G.HeadDotsVisible)..".";
                 Duration = 5;
             })
@@ -191,7 +191,7 @@ end)
 if Success and not Errored then
     if _G.SendNotifications == true then
         game:GetService("StarterGui"):SetCore("SendNotification",{
-            Title = "Exunys Developer";
+            Title = "gays";
             Text = "Heads script has successfully loaded.";
             Duration = 5;
         })
@@ -199,7 +199,7 @@ if Success and not Errored then
 elseif Errored and not Success then
     if _G.SendNotifications == true then
         game:GetService("StarterGui"):SetCore("SendNotification",{
-            Title = "Exunys Developer";
+            Title = "gays";
             Text = "Heads script has errored while loading, please check the developer console! (F9)";
             Duration = 5;
         })
@@ -222,7 +222,7 @@ local Find_Required = API_Check()
 
 if Find_Required == "No" then
     game:GetService("StarterGui"):SetCore("SendNotification",{
-        Title = "Exunys Developer";
+        Title = "gays";
         Text = "Tracer script could not be loaded because your exploit is unsupported.";
         Duration = math.huge;
         Button1 = "OK"
@@ -371,7 +371,7 @@ UserInputService.InputBegan:Connect(function(Input)
 
             if _G.SendNotifications == true then
                 game:GetService("StarterGui"):SetCore("SendNotification",{
-                    Title = "Exunys Developer";
+                    Title = "gays";
                     Text = "Tracers will be now coming from the bottom of your screen (Mode 1)";
                     Duration = 5;
                 })
@@ -383,7 +383,7 @@ UserInputService.InputBegan:Connect(function(Input)
 
             if _G.SendNotifications == true then
                 game:GetService("StarterGui"):SetCore("SendNotification",{
-                    Title = "Exunys Developer";
+                    Title = "gays";
                     Text = "Tracers will be now coming from the center of your screen (Mode 2)";
                     Duration = 5;
                 })
@@ -395,7 +395,7 @@ UserInputService.InputBegan:Connect(function(Input)
 
             if _G.SendNotifications == true then
                 game:GetService("StarterGui"):SetCore("SendNotification",{
-                    Title = "Exunys Developer";
+                    Title = "gays";
                     Text = "Tracers will be now coming from the position of your mouse cursor on your screen (Mode 3)";
                     Duration = 5;
                 })
@@ -406,7 +406,7 @@ UserInputService.InputBegan:Connect(function(Input)
         
         if _G.SendNotifications == true then
             game:GetService("StarterGui"):SetCore("SendNotification",{
-                Title = "Exunys Developer";
+                Title = "gays";
                 Text = "The tracers' visibility is now set to "..tostring(_G.TracersVisible)..".";
                 Duration = 5;
             })
@@ -434,7 +434,7 @@ end)
 if Success and not Errored then
     if _G.SendNotifications == true then
         game:GetService("StarterGui"):SetCore("SendNotification",{
-            Title = "Exunys Developer";
+            Title = "gays";
             Text = "Tracer script has successfully loaded.";
             Duration = 5;
         })
@@ -442,7 +442,7 @@ if Success and not Errored then
 elseif Errored and not Success then
     if _G.SendNotifications == true then
         game:GetService("StarterGui"):SetCore("SendNotification",{
-            Title = "Exunys Developer";
+            Title = "gays";
             Text = "Tracer script has errored while loading, please check the developer console! (F9)";
             Duration = 5;
         })
