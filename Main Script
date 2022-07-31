@@ -1,0 +1,546 @@
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Rfymee/Shitter/main/Chatlogs'))()
+
+-------//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+local DiscordLib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/discord%20lib.txt")()
+
+local win = DiscordLib:Window("Nico's nextbots")
+
+local serv = win:Server("Nico", "")
+
+local btns = serv:Channel("Main")
+
+btns:Seperator()
+
+btns:Label("Credits to Alex")
+
+btns:Seperator()
+
+btns:Label("Tracers")
+btns:Button("Bot Tracers", function()
+DiscordLib:Notification("Notification", "Bot Tracers do not work", "Press to continue!")
+print("dont work mb")
+end)
+
+btns:Button("Player Tracers", function()
+local function API_Check()
+    if Drawing == nil then
+        return "No"
+    else
+        return "Yes"
+    end
+end
+
+local Find_Required = API_Check()
+
+if Find_Required == "No" then
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Exunys Developer";
+        Text = "Heads script could not be loaded because your exploit is unsupported.";
+        Duration = math.huge;
+        Button1 = "OK"
+    })
+
+    return
+end
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Camera = workspace.CurrentCamera
+
+local Typing = false
+
+_G.SendNotifications = true   -- If set to true then the script would notify you frequently on any changes applied and when loaded / errored. (If a game can detect this, it is recommended to set it to false)
+_G.DefaultSettings = false   -- If set to true then the heads script would run with default settings regardless of any changes you made.
+
+_G.TeamCheck = false   -- If set to true then the script would create head dots only for the enemy team members.
+
+_G.HeadDotsVisible = true   -- If set to true then the head dots will be visible and vice versa.
+_G.DotColor = Color3.fromRGB(255, 80, 10)   -- The color that the head dots would appear as.
+_G.DotSize = 5   -- The size of the head dot.
+_G.DotTransparency = 0.7   -- The transparency of the head dot.
+_G.DotSides = 100   -- How many sides will the dot have.
+_G.DotThickness = 1   -- How thick will the head dot be.
+_G.Filled = true   -- If set to true then the circle would be filled and vice versa.
+
+_G.DisableKey = Enum.KeyCode.Q   -- The key that disables / enables the head dots.
+
+local function CreateHeadDots()
+    for _, v in next, Players:GetPlayers() do
+        if v.Name ~= Players.LocalPlayer.Name then
+            local HeadDot = Drawing.new("Circle")
+
+            RunService.RenderStepped:Connect(function()
+                if workspace:FindFirstChild(v.Name) ~= nil and workspace[v.Name]:FindFirstChild("Head") ~= nil then
+                    local Vector, OnScreen = Camera:WorldToViewportPoint(workspace:WaitForChild(v.Name, math.huge).Head.Position)
+
+                    HeadDot.Color = _G.DotColor
+                    HeadDot.Radius = _G.DotSize
+                    HeadDot.Transparency = _G.DotTransparency
+                    HeadDot.NumSides = _G.DotSides
+                    HeadDot.Thickness = _G.DotThickness
+                    HeadDot.Filled = _G.Filled
+
+                    if OnScreen == true then
+                        HeadDot.Position = Vector2.new(Vector.X, Vector.Y)
+                        if _G.TeamCheck == true then 
+                            if Players.LocalPlayer.Team ~= v.Team then
+                                HeadDot.Visible = _G.HeadDotsVisible
+                            else
+                                HeadDot.Visible = false
+                            end
+                        else
+                            HeadDot.Visible = _G.HeadDotsVisible
+                        end
+                    else
+                        HeadDot.Visible = false
+                    end
+                else
+                    HeadDot.Visible = false
+                end
+            end)
+
+            Players.PlayerRemoving:Connect(function()
+                HeadDot.Visible = false
+            end)
+        end
+    end
+
+    Players.PlayerAdded:Connect(function(Player)
+        Player.CharacterAdded:Connect(function(v)
+            if v.Name ~= Players.LocalPlayer.Name then
+                local HeadDot = Drawing.new("Circle")
+    
+                RunService.RenderStepped:Connect(function()
+                    if workspace:FindFirstChild(v.Name) ~= nil and workspace[v.Name]:FindFirstChild("Head") ~= nil then
+                        local Vector, OnScreen = Camera:WorldToViewportPoint(workspace:WaitForChild(v.Name, math.huge).Head.Position)
+    
+                        HeadDot.Color = _G.DotColor
+                        HeadDot.Radius = _G.DotSize
+                        HeadDot.Transparency = _G.DotTransparency
+                        HeadDot.NumSides = _G.DotSides
+                        HeadDot.Thickness = _G.DotThickness
+                        HeadDot.Filled = _G.Filled
+    
+                        if OnScreen == true then
+                            HeadDot.Position = Vector2.new(Vector.X, Vector.Y)
+                            if _G.TeamCheck == true then 
+                                if Players.LocalPlayer.Team ~= Players:GetPlayerFromCharacter(v).Team then
+                                    HeadDot.Visible = _G.HeadDotsVisible
+                                else
+                                    HeadDot.Visible = false
+                                end
+                            else
+                                HeadDot.Visible = _G.HeadDotsVisible
+                            end
+                        else
+                            HeadDot.Visible = false
+                        end
+                    else
+                        HeadDot.Visible = false
+                    end
+                end)
+
+                Players.PlayerRemoving:Connect(function()
+                    HeadDot.Visible = false
+                end)
+            end
+        end)
+    end)
+end
+
+if _G.DefaultSettings == true then
+    _G.TeamCheck = false
+    _G.HeadDotsVisible = true
+    _G.DotColor = Color3.fromRGB(40, 90, 255)
+    _G.DotSize = 5
+    _G.DotTransparency = 0.65
+    _G.DotSides = 100
+    _G.DotThickness = 1
+    _G.Filled = true
+    _G.DisableKey = Enum.KeyCode.Q
+end
+
+UserInputService.TextBoxFocused:Connect(function()
+    Typing = true
+end)
+
+UserInputService.TextBoxFocusReleased:Connect(function()
+    Typing = false
+end)
+
+UserInputService.InputBegan:Connect(function(Input)
+    if Input.KeyCode == _G.DisableKey and Typing == false then
+        _G.HeadDotsVisible = not _G.HeadDotsVisible
+        
+        if _G.SendNotifications == true then
+            game:GetService("StarterGui"):SetCore("SendNotification",{
+                Title = "Exunys Developer";
+                Text = "The Heads's visibility is now set to "..tostring(_G.HeadDotsVisible)..".";
+                Duration = 5;
+            })
+        end
+    end
+end)
+
+local Success, Errored = pcall(function()
+    CreateHeadDots()
+end)
+
+if Success and not Errored then
+    if _G.SendNotifications == true then
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+            Title = "Exunys Developer";
+            Text = "Heads script has successfully loaded.";
+            Duration = 5;
+        })
+    end
+elseif Errored and not Success then
+    if _G.SendNotifications == true then
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+            Title = "Exunys Developer";
+            Text = "Heads script has errored while loading, please check the developer console! (F9)";
+            Duration = 5;
+        })
+    end
+    TestService:Message("The heads script has errored, please notify Exunys with the following information :")
+    warn(Errored)
+    print("!! IF THE ERROR IS A FALSE POSITIVE (says that a player cannot be found) THEN DO NOT BOTHER !!")
+end
+
+CreateHeadDots()
+local function API_Check()
+    if Drawing == nil then
+        return "No"
+    else
+        return "Yes"
+    end
+end
+
+local Find_Required = API_Check()
+
+if Find_Required == "No" then
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "Exunys Developer";
+        Text = "Tracer script could not be loaded because your exploit is unsupported.";
+        Duration = math.huge;
+        Button1 = "OK"
+    })
+
+    return
+end
+
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local Camera = game:GetService("Workspace").CurrentCamera
+local UserInputService = game:GetService("UserInputService")
+local TestService = game:GetService("TestService")
+
+local Typing = false
+
+_G.SendNotifications = true   -- If set to true then the script would notify you frequently on any changes applied and when loaded / errored. (If a game can detect this, it is recommended to set it to false)
+_G.DefaultSettings = false   -- If set to true then the tracer script would run with default settings regardless of any changes you made.
+
+_G.TeamCheck = false   -- If set to true then the script would create tracers only for the enemy team members.
+
+--[!]-- ONLY ONE OF THESE VALUES SHOULD BE SET TO TRUE TO NOT ERROR THE SCRIPT --[!]--
+
+_G.FromMouse = false   -- If set to true, the tracers will come from the position of your mouse curson on your screen.
+_G.FromCenter = false   -- If set to true, the tracers will come from the center of your screen.
+_G.FromBottom = true   -- If set to true, the tracers will come from the bottom of your screen.
+
+_G.TracersVisible = true   -- If set to true then the tracers will be visible and vice versa.
+_G.TracerColor = Color3.fromRGB(255, 80, 10)   -- The color that the tracers would appear as.
+_G.TracerThickness = 1   -- The thickness of the tracers.
+_G.TracerTransparency = 0.7   -- The transparency of the tracers.
+
+_G.ModeSkipKey = Enum.KeyCode.E   -- The key that changes between modes that indicate where will the tracers come from.
+_G.DisableKey = Enum.KeyCode.Q   -- The key that disables / enables the tracers.
+
+local function CreateTracers()
+    for _, v in next, Players:GetPlayers() do
+        if v.Name ~= game.Players.LocalPlayer.Name then
+            local TracerLine = Drawing.new("Line")
+    
+            RunService.RenderStepped:Connect(function()
+                if workspace:FindFirstChild(v.Name) ~= nil and workspace[v.Name]:FindFirstChild("HumanoidRootPart") ~= nil then
+                    local HumanoidRootPart_Position, HumanoidRootPart_Size = workspace[v.Name].HumanoidRootPart.CFrame, workspace[v.Name].HumanoidRootPart.Size * 1
+                    local Vector, OnScreen = Camera:WorldToViewportPoint(HumanoidRootPart_Position * CFrame.new(0, -HumanoidRootPart_Size.Y, 0).p)
+                    
+                    TracerLine.Thickness = _G.TracerThickness
+                    TracerLine.Transparency = _G.TracerTransparency
+                    TracerLine.Color = _G.TracerColor
+
+                    if _G.FromMouse == true and _G.FromCenter == false and _G.FromBottom == false then
+                        TracerLine.From = Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y)
+                    elseif _G.FromMouse == false and _G.FromCenter == true and _G.FromBottom == false then
+                        TracerLine.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+                    elseif _G.FromMouse == false and _G.FromCenter == false and _G.FromBottom == true then
+                        TracerLine.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+                    end
+
+                    if OnScreen == true  then
+                        TracerLine.To = Vector2.new(Vector.X, Vector.Y)
+                        if _G.TeamCheck == true then 
+                            if Players.LocalPlayer.Team ~= v.Team then
+                                TracerLine.Visible = _G.TracersVisible
+                            else
+                                TracerLine.Visible = false
+                            end
+                        else
+                            TracerLine.Visible = _G.TracersVisible
+                        end
+                    else
+                        TracerLine.Visible = false
+                    end
+                else
+                    TracerLine.Visible = false
+                end
+            end)
+
+            Players.PlayerRemoving:Connect(function()
+                TracerLine.Visible = false
+            end)
+        end
+    end
+
+    Players.PlayerAdded:Connect(function(Player)
+        Player.CharacterAdded:Connect(function(v)
+            if v.Name ~= game.Players.LocalPlayer.Name then
+                local TracerLine = Drawing.new("Line")
+        
+                RunService.RenderStepped:Connect(function()
+                    if workspace:FindFirstChild(v.Name) ~= nil and workspace[v.Name]:FindFirstChild("HumanoidRootPart") ~= nil then
+                        local HumanoidRootPart_Position, HumanoidRootPart_Size = workspace[v.Name].HumanoidRootPart.CFrame, workspace[v.Name].HumanoidRootPart.Size * 1
+                    	local Vector, OnScreen = Camera:WorldToViewportPoint(HumanoidRootPart_Position * CFrame.new(0, -HumanoidRootPart_Size.Y, 0).p)
+                        
+                        TracerLine.Thickness = _G.TracerThickness
+                        TracerLine.Transparency = _G.TracerTransparency
+                        TracerLine.Color = _G.TracerColor
+
+                        if _G.FromMouse == true and _G.FromCenter == false and _G.FromBottom == false then
+                            TracerLine.From = Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y)
+                        elseif _G.FromMouse == false and _G.FromCenter == true and _G.FromBottom == false then
+                            TracerLine.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+                        elseif _G.FromMouse == false and _G.FromCenter == false and _G.FromBottom == true then
+                            TracerLine.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+                        end
+
+                        if OnScreen == true  then
+                            TracerLine.To = Vector2.new(Vector.X, Vector.Y)
+                            if _G.TeamCheck == true then 
+                                if Players.LocalPlayer.Team ~= Player.Team then
+                                    TracerLine.Visible = _G.TracersVisible
+                                else
+                                    TracerLine.Visible = false
+                                end
+                            else
+                                TracerLine.Visible = _G.TracersVisible
+                            end
+                        else
+                            TracerLine.Visible = false
+                        end
+                    else
+                        TracerLine.Visible = false
+                    end
+                end)
+
+                Players.PlayerRemoving:Connect(function()
+                    TracerLine.Visible = false
+                end)
+            end
+        end)
+    end)
+end
+
+UserInputService.TextBoxFocused:Connect(function()
+    Typing = true
+end)
+
+UserInputService.TextBoxFocusReleased:Connect(function()
+    Typing = false
+end)
+
+UserInputService.InputBegan:Connect(function(Input)
+    if Input.KeyCode == _G.ModeSkipKey and Typing == false then
+        if _G.FromMouse == true and _G.FromCenter == false and _G.FromBottom == false and _G.TracersVisible == true then
+            _G.FromCenter = false
+            _G.FromBottom = true
+            _G.FromMouse = false
+
+            if _G.SendNotifications == true then
+                game:GetService("StarterGui"):SetCore("SendNotification",{
+                    Title = "Exunys Developer";
+                    Text = "Tracers will be now coming from the bottom of your screen (Mode 1)";
+                    Duration = 5;
+                })
+            end
+        elseif _G.FromMouse == false and _G.FromCenter == false and _G.FromBottom == true and _G.TracersVisible == true then
+            _G.FromCenter = true
+            _G.FromBottom = false
+            _G.FromMouse = false
+
+            if _G.SendNotifications == true then
+                game:GetService("StarterGui"):SetCore("SendNotification",{
+                    Title = "Exunys Developer";
+                    Text = "Tracers will be now coming from the center of your screen (Mode 2)";
+                    Duration = 5;
+                })
+            end
+        elseif _G.FromMouse == false and _G.FromCenter == true and _G.FromBottom == false and _G.TracersVisible == true then
+            _G.FromCenter = false
+            _G.FromBottom = false
+            _G.FromMouse = true
+
+            if _G.SendNotifications == true then
+                game:GetService("StarterGui"):SetCore("SendNotification",{
+                    Title = "Exunys Developer";
+                    Text = "Tracers will be now coming from the position of your mouse cursor on your screen (Mode 3)";
+                    Duration = 5;
+                })
+            end
+        end
+    elseif Input.KeyCode == _G.DisableKey and Typing == false then
+        _G.TracersVisible = not _G.TracersVisible
+        
+        if _G.SendNotifications == true then
+            game:GetService("StarterGui"):SetCore("SendNotification",{
+                Title = "Exunys Developer";
+                Text = "The tracers' visibility is now set to "..tostring(_G.TracersVisible)..".";
+                Duration = 5;
+            })
+        end
+    end
+end)
+
+if _G.DefaultSettings == true then
+    _G.TeamCheck = false
+    _G.FromMouse = false
+    _G.FromCenter = false
+    _G.FromBottom = true
+    _G.TracersVisible = true
+    _G.TracerColor = Color3.fromRGB(40, 90, 255)
+    _G.TracerThickness = 1
+    _G.TracerTransparency = 0.5
+    _G.ModeSkipKey = Enum.KeyCode.E
+    _G.DisableKey = Enum.KeyCode.Q
+end
+
+local Success, Errored = pcall(function()
+    CreateTracers()
+end)
+
+if Success and not Errored then
+    if _G.SendNotifications == true then
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+            Title = "Exunys Developer";
+            Text = "Tracer script has successfully loaded.";
+            Duration = 5;
+        })
+    end
+elseif Errored and not Success then
+    if _G.SendNotifications == true then
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+            Title = "Exunys Developer";
+            Text = "Tracer script has errored while loading, please check the developer console! (F9)";
+            Duration = 5;
+        })
+    end
+    TestService:Message("The tracer script has errored, please notify Exunys with the following information :")
+    warn(Errored)
+    print("!! IF THE ERROR IS A FALSE POSITIVE (says that a player cannot be found) THEN DO NOT BOTHER !!")
+end
+end)
+
+btns:Seperator()
+
+btns:Label("ESP")
+
+btns:Button("Player ESP", function()
+DiscordLib:Notification("Notification", "Player ESP (Has been enabled)", "Press to continue")
+while wait() do pcall(function() for i,v in pairs(game.Players:GetChildren()) do if not v.Character.Head:FindFirstChild("ESP") then local BillboardGui = Instance.new("BillboardGui") local TextLabel = Instance.new("TextLabel") BillboardGui.Parent = v.Character.Head BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling BillboardGui.Active = true BillboardGui.Name = "ESP" BillboardGui.AlwaysOnTop = true BillboardGui.LightInfluence = 1.000 BillboardGui.Size = UDim2.new(0, 200, 0, 50) BillboardGui.StudsOffset = Vector3.new(0, 2.5, 0) TextLabel.Parent = BillboardGui TextLabel.BackgroundColor3 = Color3.fromRGB(0, 230, 255) TextLabel.BackgroundTransparency = 1.000 TextLabel.Size = UDim2.new(0, 150, 0, 50) TextLabel.Font = Enum.Font.GothamBold TextLabel.Text = v.Name TextLabel.TextColor3 = Color3.fromRGB(0, 230, 255) TextLabel.TextScaled = true TextLabel.TextSize = 14.000 TextLabel.TextStrokeTransparency = 0.000 TextLabel.TextWrapped = true end end end) end
+end)
+
+btns:Button("Bot ESP", function()
+DiscordLib:Notification("Notification", "Bot ESP (Has been enabled)", "Press to continue!")
+     for __,v in pairs(game:GetService("Workspace").bots:GetDescendants()) do
+      if v:IsA("Model") then
+        local a = Instance.new("BillboardGui",v)
+        a.Name = "Sex"
+        a.Size = UDim2.new(7,0,7,0)
+        a.AlwaysOnTop = true
+        a.MaxDistance = 250
+        local b = Instance.new("Frame",a)
+        b.Size = UDim2.new(1,0, 1,0)
+        b.BackgroundTransparency = 0.80
+        b.BorderSizePixel = 0
+        b.BackgroundColor3 = Color3.new(0, 0, 0)
+        local c = Instance.new('TextLabel',b)
+        c.Size = UDim2.new(2,0,2,0)
+        c.BorderSizePixel = 0
+        c.TextSize = 15
+        c.Text = v.Name
+        c.BackgroundTransparency = 1
+
+      end
+     end
+end)
+
+btns:Seperator()
+
+btns:Label("Safezones")
+
+btns:Button("Safezone #1", function()
+    local plr = game.Players.LocalPlayer
+	local char = plr.Character
+	char.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-96, 19, -18))
+end)
+
+btns:Button("Safezone #2", function()
+    local plr = game.Players.LocalPlayer
+	local char = plr.Character
+	char.HumanoidRootPart.CFrame =  CFrame.new(Vector3.new(-70, 35, 362))
+end)
+
+btns:Button("Safezone #3", function()
+    local plr = game.Players.LocalPlayer
+	local char = plr.Character
+	char.HumanoidRootPart.CFrame =  CFrame.new(Vector3.new(108.578056, 102.162102, 312.984863, 0.906304121, -0.422626197, 9.46223736e-06, 9.46223736e-06, 4.2617321e-05, 1, -0.422626197, -0.906304121, 4.2617321e-05))
+end)
+btns:Button("Safezone #4", function()
+    local plr = game.Players.LocalPlayer
+	local char = plr.Character
+	char.HumanoidRootPart.CFrame =  CFrame.new(Vector3.new(-288.75, 32.5499992, 58.6500015, 0, -1, 0, 0, 0, 1, -1, 0, 0))
+end)
+
+
+btns:Button("Safezone #5 (yellow room / elevator room)", function()
+    local plr = game.Players.LocalPlayer
+	local char = plr.Character
+	char.HumanoidRootPart.CFrame =  CFrame.new(Vector3.new(203.349991, 16.8000164, 825.249939, 1, 0, -0, 0, 0, 1, 0, -1, 0))
+end)
+
+btns:Seperator()
+
+btns:Label("Extras")
+
+btns:Seperator()
+
+btns:Toggle("Noclip ( dont work yet )", false, function()
+print("nothing yet.")
+end)
+
+btns:Seperator()
+
+btns:Label("Buttons Below and Toggles Above")
+
+btns:Button("Anti-Afk", function()
+DiscordLib:Notification("Notification", "Anti-Afk Enabled.", "Press to continue!")
+    local vu = game:GetService("VirtualUser") -- AntiAfk
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    wait(1)
+    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+end)
