@@ -1,0 +1,131 @@
+function script()
+	loadstring(game:HttpGet('https://raw.githubusercontent.com/Rfymee/Shitter/main/Main%20Script'))()
+end
+
+game.StarterGui:SetCore("SendNotification",{
+	Title = "Alex's Script",
+	Text = "Thanks for supportin!",
+	Icon = "rbxassetid://145360599",
+	Duration = 8
+})
+
+--// CashX
+
+local ScreenGui = Instance.new("ScreenGui")
+local Alex = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local UsernameBox = Instance.new("TextBox")
+local PasswordBox = Instance.new("TextBox")
+local LoginButton = Instance.new("TextButton")
+local TextButton = Instance.new("TextButton")
+local DiscordJoinButton = Instance.new("TextButton")
+
+--Properties:
+
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Alex.Name = "Alex"
+Alex.Parent = ScreenGui
+Alex.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+Alex.BorderSizePixel = 0
+Alex.Position = UDim2.new(0.407073289, 0, 0.502979755, 0)
+Alex.Size = UDim2.new(0, 376, 0, 166)
+Alex.Active = true
+Alex.Draggable = true
+
+Title.Name = "Title"
+Title.Parent = Alex
+Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1.000
+Title.Size = UDim2.new(0, 376, 0, 21)
+Title.Font = Enum.Font.Roboto
+Title.Text = "CashX Premium"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 17.000
+Title.TextStrokeTransparency = 5.000
+Title.TextWrapped = true
+
+UsernameBox.Name = "UsernameBox"
+UsernameBox.Parent = Alex
+UsernameBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UsernameBox.BorderSizePixel = 0
+UsernameBox.Position = UDim2.new(0.0691489354, 0, 0.307228923, 0)
+UsernameBox.Size = UDim2.new(0, 329, 0, 21)
+UsernameBox.Font = Enum.Font.SourceSans
+UsernameBox.Text = "Insert Username"
+UsernameBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+UsernameBox.TextSize = 14.000
+
+PasswordBox.Name = "PasswordBox"
+PasswordBox.Parent = Alex
+PasswordBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+PasswordBox.BorderSizePixel = 0
+PasswordBox.Position = UDim2.new(0.0691489354, 0, 0.506024122, 0)
+PasswordBox.Size = UDim2.new(0, 329, 0, 21)
+PasswordBox.Font = Enum.Font.SourceSans
+PasswordBox.Text = "Insert Password Here"
+PasswordBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+PasswordBox.TextSize = 14.000
+
+LoginButton.Name = "LoginButton"
+LoginButton.Parent = Alex
+LoginButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LoginButton.BackgroundTransparency = 1.000
+LoginButton.Position = UDim2.new(0, 242, 0, 122)
+LoginButton.Size = UDim2.new(0, 113, 0, 33)
+LoginButton.Font = Enum.Font.SourceSans
+LoginButton.Text = "Login!"
+LoginButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoginButton.TextSize = 14.000
+
+TextButton.Parent = Alex
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BackgroundTransparency = 1.000
+TextButton.Position = UDim2.new(0, 355, 0, -6)
+TextButton.Size = UDim2.new(0, 27, 0, 32)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "X"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
+
+
+DiscordJoinButton.Name = "DiscordJoinButton"
+DiscordJoinButton.Parent = Alex
+DiscordJoinButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+DiscordJoinButton.BackgroundTransparency = 1.000
+DiscordJoinButton.Position = UDim2.new(0, 26, 0, 122)
+DiscordJoinButton.Size = UDim2.new(0, 113, 0, 33)
+DiscordJoinButton.Font = Enum.Font.SourceSans
+DiscordJoinButton.Text = "Alex's Discord"
+DiscordJoinButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+DiscordJoinButton.TextSize = 14.000
+
+
+LoginButton.MouseButton1Down:connect(function()
+	local US = UsernameBox.Text
+	local PS = PasswordBox.Text
+	if US == game.Players.LocalPlayer.DisplayName and PS == "hi" then
+		script()
+		game:GetService("CoreGui")["ScreenGui"]:remove()
+	else
+		game.Players.LocalPlayer:Kick("nice try bud ask alex what the password is")
+		game.Players.LocalPlayer:Kick("copied his disco to your clipboard:)")
+		setclipboard("‘ A#6666")
+	end
+end)
+
+DiscordJoinButton.MouseButton1Down:connect(function()
+	setclipboard("‘ A#6666")
+	DiscordJoinButton.Text = "Copied"
+	DiscordJoinButton.TextColor3 = Color3.fromRGB(51, 204, 51)
+	wait(1)
+	DiscordJoinButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+	DiscordJoinButton.Text = "Alex's Discord"
+end)
+
+TextButton.MouseButton1Down:connect(function()
+	game:GetService("CoreGui")["ScreenGui"]:remove()
+end)
